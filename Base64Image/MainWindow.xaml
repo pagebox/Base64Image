@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Base64Image"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="350" Width="300" WindowStartupLocation="CenterScreen">
     
        
     <Window.Resources>
@@ -51,7 +51,7 @@
 
             <GroupBox Grid.Row="1" Grid.Column="1" Header="action">
                 <StackPanel>
-                    <Button Content="data"/>
+                    <Button Command="{Binding ClickCommand}" Content="data"/>
                     <Button Content="img"/>
                     <Button Content="md"/>
                 </StackPanel>
