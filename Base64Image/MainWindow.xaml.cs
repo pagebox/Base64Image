@@ -6,75 +6,66 @@ namespace Base64Image {
 
     public partial class MainWindow : Window {
 
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-
+        private readonly Image oImage;
 
         public MainWindow() {
             InitializeComponent();
 
-
-
-            var oImage = new Image {
+            oImage = new Image {
                 Status = "No image in clipboard",
                 Text = ""
             };
-            //, source = "/marvin.jpg"
-
 
             if (Clipboard.ContainsText()) { oImage.Text = Clipboard.GetText(); }
-            if (Clipboard.ContainsImage()) {
-
-                var oImg = Clipboard.GetImage();
-
-                //-WindowStyle Minimized -file "%USERPROFILE%\Documents\SyMenu\pageBOX_Data\PowerShell\Scripts\ConvertTo-MdImage.ps1" -GreenShot
-
-                oImage.Status = $"Clipboard contains Image: {oImg.Format} {oImg.PixelHeight}x{oImg.PixelWidth}";
+            if (Clipboard.ContainsImage()) { GetImageFromClipboard(); }
 
 
+            DataContext = oImage;
 
-                var dataObject = Clipboard.GetDataObject();
+        }
 
-                var formats = dataObject.GetFormats(true);
-                foreach (var f in formats) oImage.Text += $"- {f}\n";
-
-
-
-                //img.Source = oImg;
-                //oImage.Source = oImg;
+        private void GetImageFromClipboard() {
 
 
-                //var dataObject = Clipboard.GetDataObject();
+            IDataObject dataObject = Clipboard.GetDataObject();
+
+            string[] formats = dataObject.GetFormats(true);
+            //foreach (var f in formats) oImage.Text += $"- {f}\n";
 
 
-                if (formats[0].Contains("PNG")) {
+            if (formats[0].Contains("PNG")) {
 
-                    using (System.IO.MemoryStream ms = (System.IO.MemoryStream)dataObject.GetData("PNG")) {
-                        ms.Position = 0;
+                using System.IO.MemoryStream ms = (System.IO.MemoryStream)dataObject.GetData("PNG");
+                ms.Position = 0;
 
+                System.IO.MemoryStream msJPG = new();
+                System.IO.MemoryStream msPNG = new();
+                System.IO.MemoryStream msGIF = new();
+                System.Drawing.Bitmap bitmap = new(ms);
+                bitmap.Save(msJPG, System.Drawing.Imaging.ImageFormat.Jpeg);
+                bitmap.Save(msPNG, System.Drawing.Imaging.ImageFormat.Png);
+                bitmap.Save(msGIF, System.Drawing.Imaging.ImageFormat.Gif);
 
-                        var imageSource = new System.Windows.Media.Imaging.BitmapImage();
-                        imageSource.BeginInit();
-                        imageSource.StreamSource = ms;
-                        imageSource.EndInit();
+                rbJPG.Content = $"_JPG ({msJPG.Length / 1024}kb)";
+                rbPNG.Content = $"_PNG ({msPNG.Length / 1024}kb)";
+                rbGIF.Content = $"_GIF ({msGIF.Length / 1024}kb)";
 
-
-                        img.Source = imageSource;
-                        
-
-                        // img.Source = (System.Drawing.Bitmap)new System.Drawing.Bitmap(ms);
-                        //return (System.Drawing.Bitmap)new System.Drawing.Bitmap(ms);
-                        oImage.Text += Convert.ToBase64String(ms.ToArray());
-                    }
-                }
-
-
+                rbJPG.IsChecked = msJPG.Length <= Math.Min(msPNG.Length, msGIF.Length);
+                rbPNG.IsChecked = msPNG.Length <= Math.Min(msJPG.Length, msGIF.Length);
+                rbGIF.IsChecked = msGIF.Length <= Math.Min(msPNG.Length, msJPG.Length);
 
 
+                System.Windows.Media.Imaging.BitmapImage imageSource = new();
+                imageSource.BeginInit();
+                imageSource.StreamSource = ms;
+                imageSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                imageSource.EndInit();
+                imageSource.Freeze();
+
+                oImage.Source = imageSource;
+                oImage.Text = Convert.ToBase64String(ms.ToArray());
+                oImage.Status = $"Clipboard Image: {imageSource.Format} {imageSource.PixelHeight}x{imageSource.PixelWidth} {ms.Length / 1024} kb";
             }
-
-
-            this.DataContext = oImage;
 
         }
 
@@ -107,7 +98,21 @@ namespace Base64Image {
             return bmp;
         }
 
+        private void BtnData_Click(object sender, RoutedEventArgs e) {
+
+            //oImage.Text = Convert.ToBase64String(GetImageFromClipboard());
+            //img.Source = GetImageFromClipboard();
+            GetImageFromClipboard();
 
 
+        }
+
+        private void BtnImg_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void BtnMD_Click(object sender, RoutedEventArgs e) {
+
+        }
     }
 }

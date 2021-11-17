@@ -9,29 +9,44 @@ namespace Base64Image {
         }
 
 
-
-        public System.Windows.Media.Imaging.BitmapSource Source { get; set; }
-        public string Status { get; set; }
-
-
+        private System.Windows.Media.Imaging.BitmapImage source;
+        private string status;
+        private string format;
         private string text;
+
+
+        public System.Windows.Media.Imaging.BitmapImage Source {
+            get => source;
+            set {
+                source = value;
+                OnPropertyChanged(nameof(Source));
+            }
+        }
+
+        public string Status {
+            get => status;
+            set {
+                status = value;
+                OnPropertyChanged(nameof(Status));
+            }
+        }
+
+
         public string Text {
             get => text;
             set {
                 text = value;
-                OnPropertyChanged("Text");
+                OnPropertyChanged(nameof(Text));
             }
         }
 
 
 
-        private string format;
-
         public string Format {
             get { return format; }
             set {
                 format = value;
-                OnPropertyChanged("Format");
+                OnPropertyChanged(nameof(Format));
             }
         }
 
