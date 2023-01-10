@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Base64Image"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="300" WindowStartupLocation="CenterScreen">
+        Title="Base64Image" Height="350" Width="400" WindowStartupLocation="CenterScreen">
     
     <DockPanel>
         
@@ -38,9 +38,9 @@
 
             <GroupBox Grid.Row="0" Grid.Column="1" Header="format">
                 <StackPanel>
-                    <RadioButton x:Name="rbPNG" GroupName="format">PNG</RadioButton>
-                    <RadioButton x:Name="rbJPG" GroupName="format">JPG</RadioButton>
-                    <RadioButton x:Name="rbGIF" GroupName="format">GIF</RadioButton>
+                    <RadioButton x:Name="rbPNG" GroupName="format" Checked="rbPNG_Checked">PNG</RadioButton>
+                    <RadioButton x:Name="rbJPG" GroupName="format" Checked="rbJPG_Checked">JPG</RadioButton>
+                    <RadioButton x:Name="rbGIF" GroupName="format" Checked="rbGIF_Checked">GIF</RadioButton>
                     
                     
                     
@@ -49,9 +49,9 @@
 
             <GroupBox Grid.Row="1" Grid.Column="1" Header="action">
                 <StackPanel>
-                    <Button x:Name="btnData" Content="_DATA" Click="BtnData_Click" /> <!--Command="{Binding ClickCommand}"-->
                     <Button x:Name="btnImg" Content="_IMG" Click="BtnImg_Click" />
                     <Button x:Name="btnMD" Content="_MD" Click="BtnMD_Click"/>
+                    <Button x:Name="btnData" Content="_Exit" Click="BtnData_Click" IsCancel="true" />
                 </StackPanel>
             </GroupBox>
 
