@@ -6,7 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Base64Image"
         mc:Ignorable="d"
-        Title="Base64Image" Height="350" Width="400" WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        Title="Base64Image" Height="350" Width="400">
     
     <DockPanel>
         
