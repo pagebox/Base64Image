@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <Title>Base64Image</Title>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Company>pageBOX</Company>
     <Description>Converts an image from the clipboard to base64 images - ready to be put back to the clipboard. Intended as an extention for Greenshot.</Description>
     <PackageProjectUrl>https://github.com/pagebox/Base64Image</PackageProjectUrl>
@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
