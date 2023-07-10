@@ -34,7 +34,15 @@ namespace Base64Image {
 
             string[] formats = dataObject.GetFormats(true);
 
-            if (formats[0].Contains("PNG")) {
+            bool containsPng = false;
+            foreach (var format in formats) {
+                if (format.Contains("PNG")) {
+                    containsPng = true;
+                    break;
+                }
+            }
+
+            if (containsPng) {
 
                 using System.IO.MemoryStream ms = (System.IO.MemoryStream)dataObject.GetData("PNG");
                 ms.Position = 0;
